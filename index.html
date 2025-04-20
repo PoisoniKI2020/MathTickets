@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Билетница по математике</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f6f6f6;
+    }
+    input {
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    .ticket {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .ticket h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Билетница по математике</h1>
+  <input type="text" id="search" placeholder="Поиск по билетам...">
+  <div id="results"></div>
+
+  <script>
+    const tickets = [
+      {
+        title: "Площадь круга",
+        content: "Формула: $$S = \\pi R^2$$"
+      },
+      {
+        title: "Квадратное уравнение",
+        content: "Решение: $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$"
+      },
+      {
+        title: "Периметр круга",
+        content: "Формула: $$P = 2\\pi R$$"
+      },
+    ];
+
+    const searchInput = document.getElementById('search');
+    const resultsDiv = document.getElementById('results');
+
+    function renderTickets(filteredTickets) {
+      resultsDiv.innerHTML = '';
+      filteredTickets.forEach(ticket => {
+        const div = document.createElement('div');
+        div.className = 'ticket';
+        div.innerHTML = `<h3>${ticket.title}</h3><p>${ticket.content}</p>`;
+        resultsDiv.appendChild(div);
+      });
+      MathJax.typeset();
+    }
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const filtered = tickets.filter(t =>
+        t.title.toLowerCase().includes(query) ||
+        t.content.toLowerCase().includes(query)
+      );
+      renderTickets(filtered);
+    });
+
+    // Отобразить все билеты при загрузке
+    renderTickets(tickets);
+  </script>
+</body>
+</html>
